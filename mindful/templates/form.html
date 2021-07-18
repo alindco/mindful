@@ -1,0 +1,13 @@
+
+   {% extends "layout.html" %}
+       {% block heading %}
+        First Page
+       {% endblock %}
+
+
+       {% block body %}
+        <p>
+            Eat another {{ name }}
+        </p>
+        <a href="{{ url_for('index') }}"> get another fruit </a>
+       {% endblock %}

@@ -1,0 +1,24 @@
+
+
+   {% extends "layout.html" %}
+   
+        {% block content %}
+        first page
+       
+        <div class="content-section">
+   
+        how manny {{ count }}
+            <ul>
+                {% for client in clients %}
+
+                    <li>
+                       
+                        {{ client.first_name}} {{ client.last_name }} ... {{ client.id }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+       
+        </div>
+        {% endblock %}
+   
