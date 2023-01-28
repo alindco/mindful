@@ -9,13 +9,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bg-steel {
-  background-color: #5f788a;
+/*  background-color: #5f788a;
+*/  background-color: #5c98b2;
+
 }
 
 .site-header .navbar-nav .nav-link {
   color: #cbd5db;
 }
 
+.navbar-item {
+  color:  white;
+}
 .site-header .navbar-nav .nav-link:hover {
   color: #ffffff;
 }
@@ -33,7 +38,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .article-title {
-  color: #444444;
+  color: green;
 }
 
 a.article-title:hover {

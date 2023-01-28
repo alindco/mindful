@@ -1,6 +1,6 @@
 
 # from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+#import sqlalchemy
 import datetime
 from sqlalchemy import Column, Integer, DateTime
 from mindful import db, login_manager
@@ -17,6 +17,7 @@ class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
+    street1 = db.Column(db.String, nullable=True)
     city = db.Column(db.String, nullable=True)
     state = db.Column(db.String, nullable=True)
     zipcode = db.Column(db.String, nullable=True)
@@ -24,23 +25,26 @@ class Client(db.Model):
     phone = db.Column(db.String, nullable=True)
     last_change_date = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    notes = db.relationship('Note', backref='notes', lazy=True)
 
     def __repr__(self):
-        return f"Client('{self.first_name}','{self.last_name}','{self.email}', '{self.city}','{self.state}','{self.zipcode}')"
+        return f"Client('{self.first_name}','{self.last_name}','{self.email}', '{self.city}','{self.state}','{self.zipcode}','{self.phone}')"
 
-    def add_note(self, note_date):
-        note = Note(note_date=datetime, last_change_date=datetime)
-        db.session.add(note)
-        db.session.commit()
+    # def add_note(self, note_date):
+    #     note = Note(note_date=datetime, last_change_date=datetime)
+    #     db.session.add(note)
+    #     db.session.commit()
 
 
 class Note(db.Model):
-    __tablename__ = "notes"
+    __tablename__ = "sessions"
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=False)
-    note_date = db.Column(db.DateTime, nullable=False)
+    note_date = db.Column(db.Date, nullable=True)
     description = db.Column(db.Text, nullable=True)
-    last_change_date = db.Column(db.DateTime, nullable=False)
+
+    def __repr__(self):
+        return f"Note('{self.note_date}', '{self.description}')"
 
 
 class User(db.Model, UserMixin):

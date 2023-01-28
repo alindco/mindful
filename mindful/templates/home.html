@@ -1,24 +1,21 @@
 
+{% extends "layout.html" %}
+   
+    {% block content %}
+    <!-- first page -->
+    
+    <div class="col-md-4 offset-md-4" > 
+        {% if current_user.is_authenticated %}
+            {% if current_user.first_name=="Nancy" %}
+                <div class="col-md-5 offset-md-5"> 
+                    <img src="/static/img/Nancy-Lindgren-Logo-sm.jpg">
+                </div>
+            {% endif %}
 
-   {% extends "layout.html" %}
-   
-        {% block content %}
-        first page
-       
-        <div class="content-section">
-   
-        how manny {{ count }}
-            <ul>
-                {% for client in clients %}
+            <h1> Welcome {{ current_user.first_name }}</h1>
+        {% else %}
+           <h1> <a  href="{{ url_for('login') }}">Login</a></h1> 
+        {% endif %}
+    </div>
+    {% endblock %}
 
-                    <li>
-                       
-                        {{ client.first_name}} {{ client.last_name }} ... {{ client.id }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-       
-        </div>
-        {% endblock %}
-   

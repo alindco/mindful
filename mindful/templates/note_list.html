@@ -1,0 +1,16 @@
+
+   {% extends "layout.html" %}
+       
+
+
+       {% block content %}
+            <h3>Client: {{ client.first_name }} {{ client.last_name}} has {{ count }} notes</h3>
+            <h2>Notes</h2>
+            <ul>
+                {% for note in notes %}
+                <li> {{ note.note_date }} ...<br/> <p>{{ note.description }}</p> </li>
+                {% endfor %}
+            </ul>
+
+
+       {% endblock %}

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+   
+    {% block content %}
+
+	 <div class="container" >
+	      <ul>
+	            {% for client in clients %}
+
+	              <li>
+	                 <a href="{{ url_for('clientinfo', id=client.id) }}">
+	                  {{ client.first_name}} {{ client.last_name }}</a>
+	                 
+	              </li>
+	            {% endfor %}
+	     </ul>
+	</div>
+	{% endblock %}

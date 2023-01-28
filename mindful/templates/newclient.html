@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+{% block heading %}
+{% endblock %}
+
+
+{% block content %}
+   
+    <div class = "content-section">
+        <form method="POST" action = "">
+             {{ form.hidden_tag() }}
+             <div class="">
+                 {{ form.submit(class="btn btn-outline-info") }}
+           
+             </div>
+
+            <!-- add the client form here  -->
+            
+            <div class="form-group">  
+                 <legend class="border-bottom mb-4">{{ legend }}</legend>   
+                <table class = "">   
+                    <thead>
+                        <tr>  
+                            <th>
+                            
+                                {{ form.first_name.label(class="form-control-label") }}
+                            </th>
+                            <th>
+                                {{ form.last_name.label(class="form-control-label") }}
+                            </th> 
+                             <th>
+                                {{ form.email.label(class="form-control-label") }}
+                            </th> 
+                              <th>
+                                {{ form.phone.label(class="form-control-label") }}
+                            </th> 
+                        </tr>
+                    </thead>  
+                    <tr>
+                        <div class="row-xs-4 ">
+                            <td>
+                                <div class="col-xs-4" > 
+                                    {{ form.first_name(class="form-control form-control-xs") }}
+                                </div>   
+                            </td>
+                            <td>
+                                <div class="col-xs-4" > 
+                                    {{ form.last_name(class="form-control form-control-xs") }}
+                                </div>
+                            </td>
+                             <td>
+                                <div class="col-xs-4" > 
+                                    {{ form.email(class="form-control form-control-xs") }}
+                                </div>
+                            </td>
+                             <td>
+                                <div class="col-xs-4" > 
+                                    {{ form.phone(class="form-control form-control-xs") }}
+                                </div>
+                            </td>
+                        </div>
+                    </tr>
+                  
+                </table> 
+            </div>
+            <div class="form-group">     
+                <table class = "">   
+                    <thead>
+                        <tr>  
+                            <th>
+                            
+                                {{ form.street1.label(class="form-control-label") }}
+                            </th>
+                            <th>
+                                {{ form.city.label(class="form-control-label") }}
+                            </th> 
+                             <th>
+                                {{ form.state.label(class="form-control-label") }}
+                            </th> 
+                              <th>
+                                {{ form.zipcode.label(class="form-control-label") }}
+                            </th> 
+                        </tr>
+                    </thead>  
+                    <tr>
+                        <div class="row-xs-4 ">
+                            <td>
+                                <div class="col-xs-4" > 
+                                    {{ form.street1(class="form-control form-control-xs") }}
+                                </div>   
+                            </td>
+                            <td>
+                                <div class="col-xs-4" > 
+                                    {{ form.city(class="form-control form-control-xs") }}
+                                </div>
+                            </td>
+                             <td>
+                                <div class="col-xs-4" > 
+                                    {{ form.state(class="form-control form-control-xs") }}
+                                </div>
+                            </td>
+                             <td>
+                                <div class="col-xs-4" > 
+                                    {{ form.zipcode(class="form-control form-control-xs") }}
+                                </div>
+                            </td>
+                        </div>
+                    </tr>
+                  
+                </table> 
+            </div>
+            
+            
+        </form>
+        
+    </div>
+    
+
+
+{% endblock %} 

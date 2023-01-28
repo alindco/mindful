@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+
+
+{% block content %}
+<h1>note</h1>
+
+  <div class = "content-section">
+    <form method="POST" action = "">
+     
+      <div class="container">     
+        <div class="row col-4" >
+          {{ form.note_date.label(class="form-control-label") }}
+     
+          {{ form.note_date(class="form-control form-control-xs") }}
+        </div>
+          {{ form.description.label(class="form-control-label") }}
+          
+          {{ form.description(class="form-control form-control-xs") }}
+      </div>    
+    <div class="">
+        {{ form.submit(class="btn btn-outline-info") }}
+           
+    </div>
+    </form>
+  </div>
+  {% endblock %}
