@@ -78,6 +78,7 @@ def clientinfo(id):
 @ app.route("/client/new", methods=['GET', 'POST'])
 @ login_required
 def new_client():
+    user=current_user
     form = ClientNew()
     client = Client
     legend = "New Client"
@@ -88,7 +89,8 @@ def new_client():
                         phone=form.phone.data,
                         street1=form.street1.data,
                         city=form.city.data,
-                        state=form.state.data)
+                        state=form.state.data,
+                        user_id=current_user.id)
         db.session.add(client)
         db.session.commit()
         flash("new client created", "success")
@@ -109,19 +111,22 @@ def session_note(note_id):
 
 @ app.route("/note/new", methods=['GET', 'POST'])
 @ login_required
-def new_note():
-    client = Client    
-    form = NoteNew(client.id)
+def new_note(client.id):
+    # client = Client.query.filter_by()    
+    form = NoteNew()
     legend = "New Note"
     if form.validate_on_submit():
         note = Note(description = form.description,
-                note_date=form.note_date)
+                note_date=form.note_date,
+                client_id=client.id)
         db.session.add(note)
         db.session.commit()
         flash("new note created", "success")
         return redirect(url_for('clientinfo', id=client.id))
 
     return render_template("newclient.html", client=client, form=form, legend=legend)
+
+
 @ app.route("/search_results")
 def search_results(first_name, last_name):
     clients = Client.query.filter(Client.first_name.like('%' + first_name + '%'),
