@@ -1,9 +1,10 @@
 __author__ = "Allan Lindgren"
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, TextField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, TextField, ValdationError
 from wtforms.validators import DataRequired, Length, EqualTo
 from wtforms.widgets import TextArea
+from mindful.models import User
 
 
 class RegistrationForm(FlaskForm):
@@ -15,6 +16,11 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
+
+    def validate_user_name(self,username):
+        user = User.query_by(username=username.data).first()
+        if user:
+            raise ValidationError('This user name has been used. Please choose another.'
 
 
 class LoginForm(FlaskForm):
@@ -37,6 +43,12 @@ class NoteForm(FlaskForm):
     submit = SubmitField('Save')
     #  add payment todo
 
+class NoteNew(FlaskForm):
+    note_date = DateField('Note date')
+    description = TextField('Description', widget=TextArea())
+    
+    submit = SubmitField('Save')
+    #  add payment todo
 
 class ClientForm(FlaskForm):
     first_name = StringField('Firstname')
