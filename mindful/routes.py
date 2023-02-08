@@ -1,8 +1,9 @@
 from flask import render_template, request, url_for, flash, redirect, request
 from mindful import app, db, bcrypt
-from mindful.forms import RegistrationForm, LoginForm, SearchForm, ClientForm, ClientNew, NoteForm
+from mindful.forms import RegistrationForm, LoginForm, SearchForm, ClientUpdate, ClientNew, NoteForm, NewNote
 from mindful.models import Client, User, Note
 from flask_login import login_user, current_user, logout_user, login_required
+from datetime import date
 
 
 @app.route("/home")
@@ -59,11 +60,23 @@ def note_list(client_id):
     return render_template('note_list.html', client=client, notes=notes, count=count, title='Notes')
 
 
-@ app.route("/client/<int:id>")
+@ app.route("/client/<int:id>", methods=['GET', 'POST'])
 @ login_required
 def clientinfo(id):
-    form = ClientForm()
+    form = ClientUpdate()    
     client = Client.query.get(id)
+    if form.validate_on_submit():
+        print("client")
+        client.first_name = form.first_name.data
+        client.last_name = form.last_name.data 
+        client.street1 = form.street1.data 
+        client.email = form.email.data 
+        client.phone = form.phone.data 
+        client.city = form.city.data 
+        client.state = form.state.data 
+        db.session.commit()
+        flash("Update successful", "success")
+        return redirect(url_for("clientinfo",id = client.id))
     notes = client.notes[-3:]
     form.first_name.data = client.first_name
     form.last_name.data = client.last_name
@@ -73,6 +86,7 @@ def clientinfo(id):
     form.city.data = client.city
     form.state.data = client.state
     return render_template("client.html", client=client, notes=notes, form=form)
+      
 
 
 @ app.route("/client/new", methods=['GET', 'POST'])
@@ -96,35 +110,52 @@ def new_client():
         flash("new client created", "success")
         return redirect(url_for('clientinfo', id=client.id))
 
-    return render_template("newclient.html", client=client, form=form, legend=legend)
+    return render_template("new_client.html", client=client, form=form, legend=legend)
 
 
-@ app.route("/note/<int:note_id>")
+@ app.route("/note/edit/<int:note_id>", methods=['GET','POST'])
 @ login_required
-def session_note(note_id):
-    form = NoteForm()
-    note = Note.query.get(note_id)
+def edit_session(note_id):
+    form = NewNote()
+    legend="Edit Session"
+    note = Note.query.get_or_404(note_id)
     client = Client.query.get(note.client_id)
+    # print(form.validate_on_submit())
+    if form.validate_on_submit():
+        note.description = form.description.data
+        note.note_date = form.note_date.data
+        db.session.commit()
+        flash(note.description,"success")
+        return redirect(url_for("clientinfo", id=note.client_id))
     form.note_date.data = note.note_date
     form.description.data = note.description
-    return render_template("session_note.html", client=client, note=note, form=form, title="session notes")
+    return render_template("new_note.html", client=client, note=note, legend = legend, form=form, title="Edit session")
 
-@ app.route("/note/new", methods=['GET', 'POST'])
+
+
+@ app.route("/note/new/<int:client_id>", methods=['GET', 'POST'])
 @ login_required
-def new_note(client.id):
-    # client = Client.query.filter_by()    
-    form = NoteNew()
+def new_note(client_id):
+    note=Note
+    form = NewNote()
+    # return render_template("new_note.html", note=note, form=form)
+    client= Client.query.get(client_id)
+
+    # print("here")
+    note=Note
     legend = "New Note"
     if form.validate_on_submit():
-        note = Note(description = form.description,
-                note_date=form.note_date,
+        note = Note(description = form.description.data,
+                note_date=form.note_date.data,
                 client_id=client.id)
         db.session.add(note)
         db.session.commit()
         flash("new note created", "success")
-        return redirect(url_for('clientinfo', id=client.id))
+        return redirect(url_for('clientinfo', id = client.id))
+    elif request.method =='GET' :
+        form.note_date.data = note.note_date.data = date.today() #.strftime("%d/%m/%Y")
 
-    return render_template("newclient.html", client=client, form=form, legend=legend)
+    return render_template("new_note.html", note=note, form=form, client = client, legend=legend)
 
 
 @ app.route("/search_results")

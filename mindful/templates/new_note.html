@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+
+
+{% block content %}
+<h1>note</h1>
+
+
+  <div class = "content-section">
+    <form method="POST" action = "">
+     {{ form.hidden_tag() }}
+      <div class="container">     
+        <h3>{{ client.first_name }} </h3>
+        <div class="row col-4" >
+          
+          {{ form.note_date.label(class="form-control-label") }}
+     
+          {{ form.note_date(class="form-control form-control-xs") }}
+        </div>
+          {{ form.description.label(class="form-control-label") }}
+          
+          {{ form.description(class="form-control form-control-xs") }}
+      </div>    
+      <div class="">
+          {{ form.submit(class="btn btn-outline-info") }}
+          <a class = "btn btn-primary" href="{{ url_for('clientinfo', id = client.id) }}" role="button"> cancle </a>
+          
+      </div>
+    </form>
+  </div>
+  {% endblock %}

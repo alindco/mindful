@@ -4,13 +4,13 @@
 
 
 {% block content %}
-    <div class="">
-        {{ form.submit(class="btn btn-outline-info") }}
-           
-    </div>
+   
     <div class = "content-section">
+       
         <form method="POST" action = "">
-            <!-- add the client form here  -->
+         {{ form.hidden_tag() }}
+         {{ form.csrf_token }}
+             <!-- add the client form here  -->
             
             <div class="form-group">     
                 <table class = "">   
@@ -105,27 +105,38 @@
                 </table> 
             </div>
             
-            
+             <div class="">
+                {{ form.submit(class="btn btn-outline-info") }}
+           
+            </div>
         </form>
         
     </div>
+   
     <!--  now add last 3 notes -->
         
      <div class = "container">
         <h2 class="article-title"> Session Notes </h2>
         <div> 
             <a href="{{ url_for('note_list', client_id = client.id) }}"> See All</a>
+            <a class = "btn btn-primary" href="{{ url_for('new_note', client_id = client.id) }}" role="button"> new note</a>
         </div>
         <ul>
          {% for note in notes %}
             <li>
-                <span> <a href="{{ url_for('session_note', note_id = note.id) }}">
-                  {{ note.note_date}} </a> {{ note.description }}</span>
+                <span> <a href="{{ url_for('edit_session', note_id = note.id) }}">
+                  {{ note.note_date.strftime('%m/%d/%Y')}} </a> {{ note.description }}</span>
                  
               </li>
          {% endfor %}
          </ul>
+         {% if form.errors %}
+                {{ form.errors }}
+        {% endif %}
+
+
      </div>
+         
 
 
 {% endblock %} 

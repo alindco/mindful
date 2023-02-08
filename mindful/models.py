@@ -42,7 +42,7 @@ class Note(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=False)
     note_date = db.Column(db.Date, nullable=True)
     description = db.Column(db.Text, nullable=True)
-
+    # client=db.relationship('Client',backref='client', lazy=True)
     def __repr__(self):
         return f"Note('{self.note_date}', '{self.description}')"
 
